@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-lg shadow-6">
     <h1>주문서 생성</h1>
     <CreateOrderForm />
   </div>
@@ -17,9 +17,11 @@ export default {
 </script>
 <style scoped lang="scss">
 h1 {
-  font-size: 3rem;
+  font-size: 2rem;
+  font-weight: 400;
 }
 div {
   width: 400px;
+  border-radius: 5px;
 }
 </style>
