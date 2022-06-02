@@ -3,25 +3,24 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div> -->
-  <router-view />
+  <div class="q-pa-lg shadow-6">
+    <router-view />
+  </div>
 </template>
 
 <style lang="scss">
 #app {
   height: 100vh;
   text-align: center;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  & > div {
+    width: 400px;
+    border-radius: 5px;
   }
+}
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 </style>

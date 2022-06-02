@@ -1,8 +1,6 @@
 <template>
-  <div class="q-pa-lg shadow-6">
-    <h1>주문서 생성</h1>
-    <CreateOrderForm />
-  </div>
+  <h1>주문서 생성</h1>
+  <CreateOrderForm />
 </template>
 
 <script>
@@ -19,9 +17,5 @@ export default {
 h1 {
   font-size: 2rem;
   font-weight: 400;
-}
-div {
-  width: 400px;
-  border-radius: 5px;
 }
 </style>
