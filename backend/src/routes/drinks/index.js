@@ -1,9 +1,9 @@
 const express = require('express')
-const { getDrinkList, addDrink } = require('./ctrl')
+const ctrl = require('./ctrl')
 
 const route = express.Router()
 
-route.get('/', getDrinkList)
-route.post('/', addDrink)
+route.get('/', ctrl.getDrinks)
+route.post('/', ctrl.addDrink)
 
 module.exports = route

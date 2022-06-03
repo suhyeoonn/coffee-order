@@ -1,4 +1,4 @@
-const getDrinkList = (req, res) => {
+const getDrinks = (req, res) => {
   res.json({ success: true })
 }
 
@@ -7,6 +7,6 @@ const addDrink = (req, res) => {
 }
 
 module.exports = {
-  getDrinkList,
+  getDrinks,
   addDrink,
 }
