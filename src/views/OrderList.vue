@@ -1,28 +1,49 @@
 <template>
   <div class="wrap">
-    <div class="title">
-      <h3>{{ orderName }}</h3>
-      <p>{{ description }}</p>
-    </div>
+    <OrderTitle />
     <q-btn label="주문 마감하기" type="submit" size="x" class="close-order" />
     <p class="total">전체 {{ total }} 잔</p>
-    <SearchDrink :drinks="drinks" @add-drink="addDrink" />
+    <SearchDrink :drinks="drinks" @add-drink="addDrink" @order-drink="orderDrink" />
   </div>
 </template>
 
 <script>
 import { reactive } from 'vue'
+import { useQuasar } from 'quasar'
 import SearchDrink from '../components/SearchDrink.vue'
+import OrderTitle from '../components/OrderTitle.vue'
+import OrderOptionDialog from '../components/OrderOptionDialog.vue'
+
 export default {
-  components: { SearchDrink },
+  components: { SearchDrink, OrderTitle },
   setup() {
-    const orderName = '6/1 커피 타임'
-    const description = '10시까지 주문 부탁드립니다.'
     const total = 0
     const drinks = reactive(['americano', 'lattee', 'milk', 'juice'])
+    const $q = useQuasar()
 
     const addDrink = (drink) => drinks.push(drink)
-    return { orderName, description, total, drinks, addDrink }
+    const orderDrink = () => {
+      $q.dialog({
+        component: OrderOptionDialog,
+
+        // props forwarded to your custom component
+        componentProps: {
+          text: 'something',
+          // ...more..props...
+        },
+      })
+        .onOk(() => {
+          console.log('OK')
+        })
+        .onCancel(() => {
+          console.log('Cancel')
+        })
+        .onDismiss(() => {
+          console.log('Called on OK or Cancel')
+        })
+    }
+
+    return { total, drinks, addDrink, orderDrink }
   },
 }
 </script>

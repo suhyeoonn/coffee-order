@@ -7,7 +7,7 @@
   <ul>
     <li class="row flex-center" v-for="item in searchResults" :key="item">
       <span>{{ item }}</span>
-      <q-btn label="주문하기" color="primary" />
+      <q-btn label="주문하기" color="primary" @click="$emit('order-drink')" />
     </li>
     <li v-if="keyword && !searchResults.length" class="row flex-center no-drink">
       <span>해당 음료가 없습니다.</span>
