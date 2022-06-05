@@ -9,4 +9,4 @@ const connection = async () =>
     database: config.database,
   })
 
-module.exports = connection
+module.exports = { connection }
