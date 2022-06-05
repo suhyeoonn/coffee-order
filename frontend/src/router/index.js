@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CreateOrder from '../views/CreateOrder.vue'
+import CreateBill from '../views/CreateBill.vue'
 import OrderList from '../views/OrderList.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: CreateOrder,
+    component: CreateBill,
   },
   {
     path: '/list',

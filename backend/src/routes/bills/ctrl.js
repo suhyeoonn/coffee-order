@@ -2,8 +2,13 @@ const Bill = require('../../../models/Bill')
 
 const createBill = async (req, res) => {
   const { title, description, nickname } = req.body
-  const result = await Bill.createBill(title, description, nickname)
-  res.send({ success: result })
+  const addData = { title, description, nickname }
+  try {
+    const insertId = await Bill.createBill(addData)
+    res.send({ success: true, data: { ...addData, id: insertId } })
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 const closeBill = async (req, res) => {

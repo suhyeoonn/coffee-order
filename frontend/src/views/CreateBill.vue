@@ -1,15 +1,15 @@
 <template>
   <h1>주문서 생성</h1>
-  <CreateOrderForm />
+  <CreateBillForm />
 </template>
 
 <script>
-import CreateOrderForm from '@/components/CreateOrderForm'
+import CreateBillForm from '@/components/CreateBillForm'
 
 export default {
   name: 'Home',
   components: {
-    CreateOrderForm,
+    CreateBillForm,
   },
 }
 </script>
