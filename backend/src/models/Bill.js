@@ -11,25 +11,22 @@ class Bill {
 
   static async updateBill(id) {
     const conn = await db.connection()
-    const query = 'UPDATE bills SET status=? AND endTime = NOW() WHERE seq = ?'
-    const CLOSE_STATUS = 1
-    await conn.execute(query, [CLOSE_STATUS, id])
-    return true
+    const query = 'UPDATE bills SET closed=?, endTime = NOW() WHERE id = ?'
+    await conn.execute(query, [1, id])
   }
 
-  static async getOrders(id) {
+  static async getBill(id) {
     const conn = await db.connection()
-    const query = 'SELECT * FROM orders WHERE billSeq = ?'
+    const query = 'SELECT * FROM bills WHERE id = ?'
     const [rows] = await conn.execute(query, [id])
-    return rows
+    return rows[0]
   }
 
-  static async getOrderers(billId, drinkId, type) {
+  static async existBill(id) {
     const conn = await db.connection()
-    console.log(billId, drinkId, type)
-    const query = 'SELECT * FROM orders WHERE billSeq = ? AND drinkSeq = ? AND drinkType = ?'
-    const [rows] = await conn.execute(query, [billId, drinkId, type])
-    return rows
+    const query = 'SELECT count(*) as count FROM bills WHERE id = ?'
+    const [rows] = await conn.execute(query, [id])
+    return rows[0].count > 0
   }
 }
 

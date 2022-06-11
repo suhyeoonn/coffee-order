@@ -1,11 +1,12 @@
-const Bill = require('../../../models/Bill')
+const Bill = require('../../models/Bill')
+const Order = require('../../models/Order')
 
 const createBill = async (req, res) => {
   const { title, description, nickname } = req.body
   const addData = { title, description, nickname }
   try {
     const insertId = await Bill.createBill(addData)
-    res.send({ success: true, data: { ...addData, id: insertId } })
+    res.json({ ...addData, id: insertId })
   } catch (e) {
     console.error(e)
   }
@@ -13,26 +14,47 @@ const createBill = async (req, res) => {
 
 const closeBill = async (req, res) => {
   const { id } = req.params
-  const result = await Bill.updateBill(id)
-  res.json({ success: result })
+  const exist = await Bill.existBill(id)
+  if (!exist) {
+    res.json({ error: 'Not exist id' })
+    return
+  }
+  await Bill.updateBill(id)
+  const bill = await Bill.getBill(id)
+  res.json(bill)
 }
 
 const getOrders = async (req, res) => {
   const { id } = req.params
   const { drinkId, type } = req.query
-  console.log(drinkId)
-  let rows = null
-  if (drinkId) {
-    rows = await Bill.getOrderers(id, drinkId, type)
-  } else {
-    rows = await Bill.getOrders(id)
+
+  const exist = await Bill.existBill(id)
+  if (!exist) {
+    res.json({ error: 'Not exist id' })
   }
-  res.json({ success: true, rows })
+
+  let rows = null
+  if (drinkId && type) {
+    rows = await Order.getOrderers(id, drinkId, type)
+  } else {
+    // TODO: count
+    rows = await Order.getOrders(id)
+  }
+  res.json(rows)
 }
 
-const addOrder = (req, res) => {
+const addOrder = async (req, res) => {
   const { id } = req.params
-  res.json({ success: true, id })
+  const {drinkId, drinkType, nickname, request} = req.body
+
+  const exist = await Bill.existBill(id)
+  if (!exist) {
+    res.json({ error: 'Not exist id' })
+  }
+
+  const order = {billId: id, drinkId, drinkType, nickname, request}
+  const insertId = await Order.addOrder(order)
+  res.json({ ...order, id: insertId })
 }
 
 module.exports = {

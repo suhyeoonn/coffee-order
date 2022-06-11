@@ -8,8 +8,8 @@ class Drink {
   }
   static async addDrink(name) {
     const conn = await db.connection()
-    await conn.execute('INSERT INTO drinks(drinkName) VALUES(?)', [name])
-    return true
+    const [rows] = await conn.execute('INSERT INTO drinks(name) VALUES(?)', [name])
+    return rows.insertId
   }
 }
 

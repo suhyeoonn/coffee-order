@@ -22,4 +22,4 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-backend/config/config.js
+backend/src/config/config.js
