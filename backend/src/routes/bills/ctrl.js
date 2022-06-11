@@ -12,13 +12,18 @@ const createBill = async (req, res) => {
   }
 }
 
-const closeBill = async (req, res) => {
+const checkBill = async (req, res, next) => {
   const { id } = req.params
   const exist = await Bill.existBill(id)
   if (!exist) {
-    res.json({ error: 'Not exist id' })
+    res.status(400).json({ error: 'Not exist id' })
     return
   }
+  next()
+}
+
+const closeBill = async (req, res) => {
+  const { id } = req.params
   await Bill.updateBill(id)
   const bill = await Bill.getBill(id)
   res.json(bill)
@@ -27,11 +32,6 @@ const closeBill = async (req, res) => {
 const getOrders = async (req, res) => {
   const { id } = req.params
   const { drinkId, type } = req.query
-
-  const exist = await Bill.existBill(id)
-  if (!exist) {
-    res.json({ error: 'Not exist id' })
-  }
 
   let rows = null
   if (drinkId && type) {
@@ -45,14 +45,9 @@ const getOrders = async (req, res) => {
 
 const addOrder = async (req, res) => {
   const { id } = req.params
-  const {drinkId, drinkType, nickname, request} = req.body
+  const { drinkId, drinkType, nickname, request } = req.body
 
-  const exist = await Bill.existBill(id)
-  if (!exist) {
-    res.json({ error: 'Not exist id' })
-  }
-
-  const order = {billId: id, drinkId, drinkType, nickname, request}
+  const order = { billId: id, drinkId, drinkType, nickname, request }
   const insertId = await Order.addOrder(order)
   res.json({ ...order, id: insertId })
 }
@@ -62,4 +57,5 @@ module.exports = {
   closeBill,
   getOrders,
   addOrder,
+  checkBill,
 }
