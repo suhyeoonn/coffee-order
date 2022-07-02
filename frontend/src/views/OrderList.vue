@@ -4,21 +4,30 @@
     <q-btn label="주문 마감하기" type="submit" size="x" class="close-order" />
     <p class="total">전체 {{ total }} 잔</p>
     <SearchDrink :drinks="drinks" @add-drink="addDrink" @order-drink="orderDrink" />
+    <ul>
+      <OrderItem v-for="item in orders" :key="item" :item="item"/>
+      <!--    <li v-if="keyword && !searchGroup.length" class="row flex-center no-drink">-->
+      <!--      <span>해당 음료가 없습니다.</span>-->
+      <!--      <q-btn label="추가하기" color="primary" class="add-drink" @click="onAddDrink" />-->
+      <!--    </li>-->
+    </ul>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, toRefs } from 'vue'
 import { useQuasar } from 'quasar'
 import SearchDrink from '../components/SearchDrink.vue'
 import OrderTitle from '../components/OrderTitle.vue'
 import OrderOptionDialog from '../components/OrderOptionDialog.vue'
+import OrderItem from '@/components/order/OrderItem'
+import orderService from '@/services/orderService'
 
 export default {
-  components: { SearchDrink, OrderTitle },
-  setup() {
+  components: { SearchDrink, OrderTitle, OrderItem },
+  setup(_, {emit}) {
     const total = 0
-    const drinks = reactive(['americano', 'lattee', 'milk', 'juice'])
+    const drinks = reactive(['americano', 'latte', 'milk', 'juice'])
     const $q = useQuasar()
 
     const addDrink = (drink) => drinks.push(drink)
@@ -43,7 +52,22 @@ export default {
         })
     }
 
-    return { total, drinks, addDrink, orderDrink }
+    const onAddDrink = () => {
+      // emit('add-drink', keyword.value)
+      emit('add-drink', 'dummy')
+      // keyword.value = ''
+    }
+
+    const data = reactive({
+      orders: null
+    })
+    const fetchOrders = async () => {
+      const res = await orderService.getOrders(1)
+      data.orders = res.data
+    }
+    fetchOrders()
+
+    return { total, drinks, addDrink, orderDrink, onAddDrink, ...toRefs(data) }
   },
 }
 </script>

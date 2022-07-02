@@ -21,7 +21,7 @@ export default {
 
     const onSubmit = async () => {
       const res = await billService.createBill(nickname.value, title.value, description.value)
-      if (res.data.success) {
+      if (res.status === 200) {
         route.push('/list')
       } else alert('error')
     }
