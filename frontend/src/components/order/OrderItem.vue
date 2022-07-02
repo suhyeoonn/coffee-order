@@ -1,5 +1,5 @@
 <template>
-  <li class="row flex-center">
+  <li class="row flex-center" @click="onShowDetail">
     <span>{{ item.drinkName }}</span>
     <div class="drink-types">
       <div class="drink-type hot">
@@ -16,7 +16,8 @@
 </template>
 
 <script>
-// import { reactive } from 'vue'
+import { useQuasar } from 'quasar'
+import DetailDialog from '@/components/order/DetailDialog'
 
 export default {
   name: "OrderItem",
@@ -24,7 +25,30 @@ export default {
     item: Object,
   },
   setup(props) {
-    console.log(props.item)
+    const $q = useQuasar()
+
+    const onShowDetail = () => {
+      $q.dialog({
+        component: DetailDialog,
+
+        // props forwarded to your custom component
+        componentProps: {
+          drinkId: props.item.drinkId,
+          drinkName: props.item.drinkName
+          // ...more..props...
+        },
+      })
+        .onOk(() => {
+          console.log('OK')
+        })
+        .onCancel(() => {
+          console.log('Cancel')
+        })
+        .onDismiss(() => {
+          console.log('Called on OK or Cancel')
+        })
+    }
+    return {onShowDetail}
   }
 }
 </script>

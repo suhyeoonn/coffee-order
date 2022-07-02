@@ -2,13 +2,12 @@ const Order = require('../../../models/Order')
 
 const getOrders = async (req, res) => {
   const { id } = req.params
-  const { drinkId, type } = req.query
+  const { drinkId } = req.query
 
   let rows = null
-  if (drinkId && type) {
-    rows = await Order.getOrderers(id, drinkId, type)
+  if (drinkId) {
+    rows = await Order.getOrderers(id, drinkId)
   } else {
-    // TODO: count
     rows = await Order.getOrders(id)
   }
   res.json(rows)

@@ -5,7 +5,7 @@
     <p class="total">전체 {{ total }} 잔</p>
     <SearchDrink :drinks="drinks" @add-drink="addDrink" @order-drink="orderDrink" />
     <ul>
-      <OrderItem v-for="item in orders" :key="item" :item="item"/>
+      <OrderItem v-for="item in orders" :key="item" :item="item" />
       <!--    <li v-if="keyword && !searchGroup.length" class="row flex-center no-drink">-->
       <!--      <span>해당 음료가 없습니다.</span>-->
       <!--      <q-btn label="추가하기" color="primary" class="add-drink" @click="onAddDrink" />-->
@@ -15,18 +15,17 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
 import { useQuasar } from 'quasar'
 import SearchDrink from '../components/SearchDrink.vue'
 import OrderTitle from '../components/OrderTitle.vue'
-import OrderOptionDialog from '../components/OrderOptionDialog.vue'
+import OrderOptionDialog from '../components/order/OrderDialog.vue'
 import OrderItem from '@/components/order/OrderItem'
 import orderService from '@/services/orderService'
 
 export default {
   components: { SearchDrink, OrderTitle, OrderItem },
   setup(_, {emit}) {
-    const total = 0
     const drinks = reactive(['americano', 'latte', 'milk', 'juice'])
     const $q = useQuasar()
 
@@ -52,6 +51,8 @@ export default {
         })
     }
 
+
+
     const onAddDrink = () => {
       // emit('add-drink', keyword.value)
       emit('add-drink', 'dummy')
@@ -59,8 +60,9 @@ export default {
     }
 
     const data = reactive({
-      orders: null
+      orders: []
     })
+    const total = computed(() => data.orders.length)
     const fetchOrders = async () => {
       const res = await orderService.getOrders(1)
       data.orders = res.data

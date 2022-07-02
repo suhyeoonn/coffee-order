@@ -15,11 +15,10 @@ class Order {
     return rows
   }
 
-  static async getOrderers(billId, drinkId, type) {
+  static async getOrderers(billId, drinkId) {
     const conn = await db.connection()
-    console.log(billId, drinkId, type)
-    const query = 'SELECT * FROM orders WHERE billId = ? AND drinkId = ? AND drinkType = ?'
-    const [rows] = await conn.execute(query, [billId, drinkId, type])
+    const query = 'SELECT nickname, drinkType, request FROM orders WHERE billId = ? AND drinkId = ?'
+    const [rows] = await conn.execute(query, [billId, drinkId])
     return rows
   }
 
