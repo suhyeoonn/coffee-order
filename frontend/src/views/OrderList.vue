@@ -2,7 +2,7 @@
   <div class="wrap">
     <OrderTitle />
     <q-btn label="주문 마감하기" type="submit" size="x" class="close-order" />
-    <p class="total">전체 {{ total }} 잔</p>
+    <p class="total">총 {{ total }} 잔</p>
     <SearchDrink :drinks="drinks" @add-drink="addDrink" @order-drink="orderDrink" />
     <ul>
       <OrderItem v-for="item in orders" :key="item" :item="item" />
@@ -25,7 +25,7 @@ import orderService from '@/services/orderService'
 
 export default {
   components: { SearchDrink, OrderTitle, OrderItem },
-  setup(_, {emit}) {
+  setup(_, { emit }) {
     const drinks = reactive(['americano', 'latte', 'milk', 'juice'])
     const $q = useQuasar()
 
@@ -52,7 +52,6 @@ export default {
     }
 
 
-
     const onAddDrink = () => {
       // emit('add-drink', keyword.value)
       emit('add-drink', 'dummy')
@@ -62,7 +61,9 @@ export default {
     const data = reactive({
       orders: []
     })
-    const total = computed(() => data.orders.length)
+    const total = computed(() =>
+      data.orders.reduce((total, order) => total + order.hot + order.ice, 0)
+    )
     const fetchOrders = async () => {
       const res = await orderService.getOrders(1)
       data.orders = res.data
@@ -78,12 +79,15 @@ export default {
 .wrap {
   text-align: left;
 }
+
 .title {
   margin-bottom: 2rem;
+
   h3 {
     margin: 0;
   }
 }
+
 .total {
   /* text-align: left; */
   margin: 1rem 0;
@@ -94,11 +98,14 @@ export default {
   background: #ff0080;
   color: white;
 }
+
 ul {
   padding: 0 1rem;
+
   li {
     border-bottom: 1px solid #eee;
     padding: 0.5rem 0;
+
     span {
       flex: 1;
     }
@@ -107,10 +114,12 @@ ul {
 
 .no-drink {
   text-align: center;
+
   & > span {
     color: gray;
     font-style: italic;
   }
+
   button {
     width: 100%;
   }
