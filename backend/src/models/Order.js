@@ -3,7 +3,14 @@ const db = require('../config/db')
 class Order {
   static async getOrders(id) {
     const conn = await db.connection()
-    const query = 'SELECT * FROM orders WHERE billId = ?'
+    const query = `
+      SELECT o.id, drinkId, name as drinkName,
+        count(case when drinkType=0 then 1 end) as hot,
+        count(case when drinkType=1 then 1 end) as ice
+      FROM orders o 
+      JOIN drinks d on o.drinkId = d.id 
+      WHERE billId = ?
+      GROUP BY drinkId`
     const [rows] = await conn.execute(query, [id])
     return rows
   }
