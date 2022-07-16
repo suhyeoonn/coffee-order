@@ -1,20 +1,20 @@
 <template>
-  <h3>Sign Up</h3>
+  <h3>Sign In</h3>
   <form @submit.prevent="onSubmit">
     <q-input v-model="nickname" label="닉네임" />
     <q-input v-model="password" label="비밀번호" />
-    <Button label="Sign Up"/>
+    <Button label="Sign In" />
   </form>
 </template>
 
 <script>
-import {ref} from 'vue'
+import { ref } from 'vue'
 import authService from '@/services/authService'
 import Button from '@/components/Button'
 import { useRouter } from 'vue-router'
 
 export default {
-  name: "SignUp",
+  name: "SignIn",
   components: { Button },
   setup() {
     const nickname = ref('')
@@ -23,11 +23,12 @@ export default {
     const route = useRouter()
 
     const onSubmit = async () => {
-      await authService.signUp(nickname.value, password.value)
-      await route.push("/signIn")
+      const res = await authService.signIn(nickname.value, password.value)
+      localStorage.setItem("token", res.data.token)
+      await route.push("/")
     }
 
-    return {nickname, password, onSubmit}
+    return { nickname, password, onSubmit }
   }
 }
 </script>

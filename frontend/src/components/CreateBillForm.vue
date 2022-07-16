@@ -3,7 +3,7 @@
     <q-input v-model="nickname" label="닉네임" />
     <q-input v-model="title" label="주문서 이름" />
     <q-input v-model="description" label="설명" />
-    <q-btn label="주문서 만들기" type="submit" size="x" />
+    <Button label="주문서 만들기"></Button>
   </q-form>
 </template>
 
@@ -11,7 +11,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import billService from '@/services/billService.js'
+import Button from '@/components/Button'
 export default {
+  components: { Button },
   setup() {
     const nickname = ref('')
     const title = ref('')
@@ -36,11 +38,6 @@ export default {
 </script>
 
 <style scoped>
-button {
-  width: 100%;
-  background: #ff0080;
-  color: white;
-}
 form > * {
   margin-bottom: 1rem;
 }
