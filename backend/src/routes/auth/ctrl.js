@@ -1,6 +1,5 @@
 const Auth = require('../../models/Auth')
-const jwt = require('jsonwebtoken')
-const secret = process.env.SECRET
+const jwt = require('../../modules/jwt')
 
 const signUp = async (req, res) => {
   const { nickname, password } = req.body
@@ -15,9 +14,7 @@ const signIn = async (req, res) => {
     res.status(400).json({ message: 'Not exist' })
     return
   }
-  const token = jwt.sign({
-    nickname: row.nickname
-  }, secret, { expiresIn: '1h' });
+  const token = jwt.sign(row.nickname)
   res.json({ success: true, token })
 }
 
