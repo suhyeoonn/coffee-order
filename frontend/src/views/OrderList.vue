@@ -22,6 +22,7 @@ import OrderTitle from '../components/OrderTitle.vue'
 import OrderOptionDialog from '../components/order/OrderDialog.vue'
 import OrderItem from '@/components/order/OrderItem'
 import orderService from '@/services/orderService'
+import { useRouter } from 'vue-router'
 
 export default {
   components: { SearchDrink, OrderTitle, OrderItem },
@@ -64,9 +65,16 @@ export default {
     const total = computed(() =>
       data.orders.reduce((total, order) => total + order.hot + order.ice, 0)
     )
+
+    const route = useRouter()
     const fetchOrders = async () => {
-      const res = await orderService.getOrders(1)
-      data.orders = res.data
+      try {
+        const res = await orderService.getOrders(1)
+        data.orders = res.data
+      } catch (err) {
+        alert('로그인이 필요한 서비스입니다.')
+        await route.push("/signIn")
+      }
     }
     fetchOrders()
 
