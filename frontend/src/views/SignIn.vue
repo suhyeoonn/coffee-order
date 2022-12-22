@@ -1,5 +1,5 @@
 <template>
-  <h3>Sign In</h3>
+  <h3>Sign In Test</h3>
   <form @submit.prevent="onSubmit">
     <q-input v-model="nickname" label="닉네임" />
     <q-input v-model="password" label="비밀번호" />
