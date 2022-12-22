@@ -12,6 +12,8 @@ jobs:
   deploy:
     # 해당 job을 실행하는 운영 체제
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./frontend
 
     # 수행할 동작 정의
     steps:
@@ -28,10 +30,12 @@ jobs:
       # 3. 패키지 설치
       - name: Install dependencies
         run: npm install
+        working-directory: ${{ env.working-directory }}
       
       # 4. 빌드
       - name: Build Page
         run: npm run build
+        working-directory: ${{ env.working-directory }}
         env:
           NODE_ENV: production
 
