@@ -19,11 +19,11 @@ jobs:
     steps:
       # 1. 저장소 체크아웃
       - name: Checkout source code
-        uses: actions/checkout@main
+        uses: actions/checkout@master
 
       # 2. node.js 환경설정
       - name: Set up Node.js
-        uses: actions/setup-node@main
+        uses: actions/setup-node@master
         with:
           node-version: 14.x
 
