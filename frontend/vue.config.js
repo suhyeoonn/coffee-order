@@ -2,10 +2,10 @@ module.exports = {
   pluginOptions: {
     quasar: {
       importStrategy: 'kebab',
-      rtlSupport: false
-    }
+      rtlSupport: false,
+    },
   },
-  transpileDependencies: [
-    'quasar'
-  ]
+  transpileDependencies: ['quasar'],
+  publicPath: '/coffee-order/',
+  outputDir: 'dist',
 }
