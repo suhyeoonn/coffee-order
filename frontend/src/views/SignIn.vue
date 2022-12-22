@@ -1,5 +1,5 @@
 <template>
-  <h3>Sign In Test</h3>
+  <h3>Sign In Test!!!</h3>
   <form @submit.prevent="onSubmit">
     <q-input v-model="nickname" label="닉네임" />
     <q-input v-model="password" label="비밀번호" />
@@ -14,7 +14,7 @@ import Button from '@/components/Button'
 import { useRouter } from 'vue-router'
 
 export default {
-  name: "SignIn",
+  name: 'SignIn',
   components: { Button },
   setup() {
     const nickname = ref('')
@@ -24,15 +24,13 @@ export default {
 
     const onSubmit = async () => {
       const res = await authService.signIn(nickname.value, password.value)
-      localStorage.setItem("token", res.data.token)
-      await route.push("/")
+      localStorage.setItem('token', res.data.token)
+      await route.push('/')
     }
 
     return { nickname, password, onSubmit }
-  }
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
